@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+.env
+.env.local
+db-data/
+wordpress/wp-content/uploads/
+*.log
+.DS_Store

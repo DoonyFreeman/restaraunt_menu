@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/*
+  ChaiShopper — дизайн-токены (плейсхолдеры).
+  ⚠️ Заменяются значениями из Claude Design, когда дизайн-система будет готова.
+  Стиль: modern fusion, тёмная тема + матовое золото.
+*/
+:root {
+  --bg: #0f0e0c; /* глубокий тёплый чёрный */
+  --accent: #c8a96e; /* матовое золото / улун */
+  --text: #f0ebe1; /* кремовый */
+  --surface: #2a2520; /* тёмно-коричневый, карточки */
+  --muted: #6b5b4e; /* приглушённый коричневый */
+  --radius: 4px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-accent: var(--accent);
+  --color-text: var(--text);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --radius-base: var(--radius);
+  --font-serif: var(--font-noto-serif);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}

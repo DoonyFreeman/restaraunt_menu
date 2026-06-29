@@ -1,0 +1,61 @@
+# ChaiShopper — dev-окружение. WP + MySQL + Next.js + Nginx + MailHog.
+# Наружу торчит только nginx (порт 80) и MailHog UI (8025).
+services:
+  db:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./db-data:/var/lib/mysql
+
+  wordpress:
+    build: ./wordpress
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      # роутинг за nginx по префиксу /wp
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', getenv('WP_URL'));
+        define('WP_SITEURL', getenv('WP_URL'));
+      WP_URL: ${WP_URL}
+    volumes:
+      - ./wordpress/theme-chaishopper:/var/www/html/wp-content/themes/chaishopper
+      - ./wordpress/wp-content/uploads:/var/www/html/wp-content/uploads
+
+  web:
+    build: ./web
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    environment:
+      NEXT_PUBLIC_WP_GRAPHQL: ${NEXT_PUBLIC_WP_GRAPHQL}
+      WP_GRAPHQL_INTERNAL: ${WP_GRAPHQL_INTERNAL}
+      RESERVATION_WP_TOKEN: ${RESERVATION_WP_TOKEN}
+      NODE_ENV: production
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+      - wordpress
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  # ponytail: dev-only перехват писем; в prod убрать и настроить реальный SMTP
+  mailhog:
+    image: mailhog/mailhog
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
