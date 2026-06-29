@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Website page" description="Branded ChaiShopper page shell — navbar, atmospheric hero, content slot, footer" -->
+<helmet>
+  <script src="./ds-base.js"></script>
+</helmet>
+
+<div style="min-height:100vh;background:var(--bg-page);font-family:var(--font-sans);color:var(--text-primary)">
+
+  <x-import component-from-global-scope="ChaiShopperDesignSystem_69d5ad.Navbar" hint-size="100%,76px"></x-import>
+
+  <section style="position:relative;min-height:calc(100vh - 76px);display:flex;align-items:center;background:radial-gradient(120% 90% at 70% 20%, rgba(200,169,110,0.10), transparent 55%), linear-gradient(115deg,#1c1813 0%, #0f0e0c 60%)">
+    <div style="max-width:1240px;margin:0 auto;padding:0 32px;width:100%">
+      <div style="max-width:640px">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent)">Чайная церемония в городе</div>
+        <h1 style="font-family:var(--font-serif);font-weight:300;font-size:76px;line-height:1.05;letter-spacing:-0.02em;margin:20px 0 0">Искусство<br>чайной паузы</h1>
+        <p style="margin-top:24px;font-size:19px;line-height:1.6;color:var(--text-secondary);max-width:460px">Тёплый свет, пар над чашкой и неспешный ритуал. Место, где время замедляется.</p>
+        <div style="display:flex;gap:14px;margin-top:36px">
+          <x-import component-from-global-scope="ChaiShopperDesignSystem_69d5ad.Button" variant="primary" size="lg" hint-size="200px,52px">Забронировать стол</x-import>
+          <x-import component-from-global-scope="ChaiShopperDesignSystem_69d5ad.Button" variant="secondary" size="lg" hint-size="180px,52px">Смотреть меню</x-import>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--border-subtle);background:var(--bg-raised);padding:48px 32px">
+    <div style="max-width:1240px;margin:0 auto;font-family:var(--font-serif);font-weight:300;font-size:24px;letter-spacing:-0.02em">Chai<span style="color:var(--accent);font-weight:400">Shopper</span></div>
+  </footer>
+
+</div>
+</x-dc>
+</body>
+</html>

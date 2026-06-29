@@ -1,0 +1,61 @@
+/* ChaiShopper — Color tokens
+   Dark, warm palette. Deep warm black + matte oolong gold + cream.
+   Inspired by Kyoto tea houses & onsen ryokan — restrained, premium, never loud. */
+
+:root {
+  /* ── Raw brand scale ───────────────────────────────────── */
+  --ink-900: #0F0E0C;   /* deep warm black — primary background */
+  --ink-800: #15130F;   /* near-black, subtle lift over bg */
+  --ink-700: #1E1B16;   /* recessed wells, inputs */
+
+  --clay-700: #221E19;  /* darkest brown surface */
+  --clay-600: #2A2520;  /* card surface (brief: surface card) */
+  --clay-500: #35302A;  /* elevated card / hover surface */
+  --clay-400: #423B33;  /* hairline borders, dividers */
+
+  --gold-300: #E0CCA0;  /* gold tint — highlights on dark */
+  --gold-200: #D4BA83;  /* gold hover (lighter) */
+  --gold-500: #C8A96E;  /* matte oolong gold — primary accent */
+  --gold-600: #A98C56;  /* pressed / deeper gold */
+
+  --cream-100: #F0EBE1; /* primary text — warm cream */
+  --cream-200: #D8D0C2; /* secondary text */
+  --bark-400: #9A8A7B;  /* muted text on dark surfaces */
+  --bark-500: #6B5B4E;  /* muted brown (brief: text muted) */
+
+  /* status — kept earthy, never neon */
+  --jade-500: #7E9A6E;  /* vegetarian / success */
+  --chili-500: #C16A4E; /* spicy / warning */
+
+  /* ── Semantic aliases ──────────────────────────────────── */
+  --bg-page: var(--ink-900);
+  --bg-raised: var(--ink-800);
+  --bg-well: var(--ink-700);
+
+  --surface-card: var(--clay-600);
+  --surface-card-hover: var(--clay-500);
+  --surface-overlay: rgba(15, 14, 12, 0.72); /* navbar / scrim base */
+
+  --border-subtle: var(--clay-400);
+  --border-strong: #574E43;
+  --border-gold: rgba(200, 169, 110, 0.45);
+
+  --text-primary: var(--cream-100);
+  --text-secondary: var(--cream-200);
+  --text-muted: var(--bark-400);
+  --text-faint: var(--bark-500);
+  --text-on-gold: var(--ink-900);
+
+  --accent: var(--gold-500);
+  --accent-hover: var(--gold-200);
+  --accent-press: var(--gold-600);
+
+  --tag-veg-fg: var(--jade-500);
+  --tag-veg-bg: rgba(126, 154, 110, 0.14);
+  --tag-spicy-fg: var(--chili-500);
+  --tag-spicy-bg: rgba(193, 106, 78, 0.14);
+  --tag-top-fg: var(--gold-300);
+  --tag-top-bg: rgba(200, 169, 110, 0.14);
+
+  --focus-ring: rgba(200, 169, 110, 0.55);
+}

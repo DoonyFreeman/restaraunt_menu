@@ -1,0 +1,6 @@
+/* ChaiShopper — Webfonts
+   Headings: Noto Serif (300, 400 + italic). Body/UI: Inter (400, 500, 600).
+   NOTE: loaded from Google Fonts CDN. To fully self-host, drop .woff2 files in
+   assets/fonts/ and replace this @import with local @font-face rules. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
