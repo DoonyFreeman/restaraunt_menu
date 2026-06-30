@@ -1,5 +1,5 @@
 import { CeremonyCard } from '@/components/ds';
-import { wrap } from '@/components/site/Section';
+import { wrap, Eyebrow } from '@/components/site/Section';
 import { ceremonies, photos } from '@/lib/seed';
 
 export const metadata = {
@@ -19,7 +19,7 @@ export default function CeremoniesPage() {
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(80% 70% at 75% 25%, rgba(200,169,110,0.10), transparent 60%)' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'var(--scrim-hero)' }} />
         <div style={{ ...wrap, position: 'relative', padding: '0 32px 64px' }}>
-          <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent)' }}>Чайные церемонии</div>
+          <Eyebrow>Чайные церемонии</Eyebrow>
           <h1 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 64, letterSpacing: '-0.02em', margin: '16px 0 0', maxWidth: 640 }}>Ритуалы, которым стоит отдать вечер</h1>
           <p className="cs-quote" style={{ marginTop: 20, maxWidth: 520 }}>«Тишина между глотками — тоже часть чая.»</p>
         </div>

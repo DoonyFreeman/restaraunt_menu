@@ -3,7 +3,7 @@
 import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button, Input } from '@/components/ds';
-import type { Location } from '@/lib/seed';
+import { shortName, type Location } from '@/lib/seed';
 
 const LABELS = ['Точка', 'Дата', 'Гости', 'Контакты', 'Готово'];
 const TIMES = ['12:00', '14:00', '16:00', '18:00', '19:00', '20:00', '21:00'];
@@ -63,7 +63,7 @@ export function ReservationFlow({ locations }: { locations: Location[] }) {
                 const on = f.loc?.id === l.id;
                 return (
                   <div key={l.id} onClick={() => set('loc', l)} style={{ padding: 16, borderRadius: 'var(--radius)', cursor: 'pointer', background: on ? 'var(--surface-card-hover)' : 'var(--bg-well)', border: `1px solid ${on ? 'var(--border-gold)' : 'var(--border-subtle)'}` }}>
-                    <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18 }}>{l.name.replace('ChaiShopper ', '')}</div>
+                    <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18 }}>{shortName(l.name)}</div>
                     <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>{l.address}</div>
                   </div>
                 );
@@ -111,7 +111,7 @@ export function ReservationFlow({ locations }: { locations: Location[] }) {
             <div style={{ width: 64, height: 64, borderRadius: '50%', margin: '0 auto 22px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(200,169,110,0.15)', border: '1px solid var(--border-gold)', color: 'var(--accent)', fontSize: 30 }}>✓</div>
             <h2 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 34, letterSpacing: '-0.02em', margin: 0 }}>Стол забронирован</h2>
             <p style={{ marginTop: 14, fontSize: 16, lineHeight: 1.6, color: 'var(--text-muted)', maxWidth: 380, margin: '14px auto 0' }}>
-              {(f.loc ? f.loc.name.replace('ChaiShopper ', '') : 'Покровка')} · {f.date || 'сегодня'} в {f.time} · {f.guests} {f.guests === 1 ? 'гость' : 'гостей'}.
+              {(f.loc ? shortName(f.loc.name) : 'Покровка')} · {f.date || 'сегодня'} в {f.time} · {f.guests} {f.guests === 1 ? 'гость' : 'гостей'}.
               Менеджер подтвердит бронь и пришлёт письмо на {f.email || 'вашу почту'}.
             </p>
             <div style={{ marginTop: 30 }}><Button href="/" variant="primary">На главную</Button></div>

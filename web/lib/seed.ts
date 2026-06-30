@@ -106,3 +106,8 @@ export const locations: Location[] = [
 export function locationBySlug(slug: string): Location | undefined {
   return locations.find((l) => l.slug === slug);
 }
+
+/** «ChaiShopper на Покровке» → «на Покровке» для компактного отображения. */
+export function shortName(name: string): string {
+  return name.replace('ChaiShopper ', '');
+}

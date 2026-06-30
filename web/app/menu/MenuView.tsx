@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { MenuItemCard } from '@/components/ds';
-import { wrap } from '@/components/site/Section';
-import type { Category, Location, MenuItem } from '@/lib/seed';
+import { wrap, Eyebrow } from '@/components/site/Section';
+import { shortName, type Category, type Location, type MenuItem } from '@/lib/seed';
 
 interface Props {
   menu: MenuItem[];
@@ -20,20 +20,20 @@ export function MenuView({ menu, categories, locations }: Props) {
   return (
     <div>
       <div style={{ ...wrap, padding: '56px 32px 0' }}>
-        <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent)' }}>Меню</div>
+        <Eyebrow>Меню</Eyebrow>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 24, flexWrap: 'wrap', marginTop: 14 }}>
           <h1 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 52, letterSpacing: '-0.02em', margin: 0 }}>Чай и кухня</h1>
           {/* Location switcher */}
           <div style={{ position: 'relative' }}>
             <button onClick={() => setOpen((o) => !o)} style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--surface-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius)', padding: '11px 16px', color: 'var(--text-primary)', fontFamily: 'var(--font-sans)', fontSize: 14, cursor: 'pointer' }}>
-              <span style={{ color: 'var(--text-faint)' }}>Ресторан:</span> {loc.name.replace('ChaiShopper ', '')}
+              <span style={{ color: 'var(--text-faint)' }}>Ресторан:</span> {shortName(loc.name)}
               <span style={{ color: 'var(--accent)' }}>▾</span>
             </button>
             {open && (
               <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, minWidth: 260, background: 'var(--surface-card-hover)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-overlay)', overflow: 'hidden', zIndex: 20 }}>
                 {locations.map((l) => (
                   <div key={l.id} onClick={() => { setLoc(l); setOpen(false); }} style={{ padding: '13px 16px', cursor: 'pointer', borderBottom: '1px solid var(--border-subtle)', color: l.id === loc.id ? 'var(--accent)' : 'var(--text-secondary)', fontSize: 14 }}>
-                    <div style={{ fontWeight: 500 }}>{l.name.replace('ChaiShopper ', '')}</div>
+                    <div style={{ fontWeight: 500 }}>{shortName(l.name)}</div>
                     <div style={{ fontSize: 12, color: 'var(--text-faint)', marginTop: 3 }}>{l.address}</div>
                   </div>
                 ))}
@@ -60,7 +60,7 @@ export function MenuView({ menu, categories, locations }: Props) {
       <div style={{ ...wrap, padding: '40px 32px 100px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
           {items.map((m) => (
-            <MenuItemCard key={m.id} name={m.name} description={m.description} price={m.price} image={m.image} tags={m.tags} />
+            <MenuItemCard key={m.id} {...m} />
           ))}
         </div>
       </div>

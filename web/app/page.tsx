@@ -60,7 +60,7 @@ export default function Home() {
         <SectionHead eyebrow="Популярное меню" title="То, что заказывают чаще всего" />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20 }}>
           {popular.map((m) => (
-            <MenuItemCard key={m.id} name={m.name} description={m.description} price={m.price} image={m.image} tags={m.tags} />
+            <MenuItemCard key={m.id} {...m} />
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: 44 }}>

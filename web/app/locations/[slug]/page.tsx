@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Button, Card, MenuItemCard } from '@/components/ds';
-import { wrap } from '@/components/site/Section';
-import { locations, locationBySlug, menu, photos } from '@/lib/seed';
+import { wrap, Eyebrow } from '@/components/site/Section';
+import { locations, locationBySlug, menu, photos, shortName } from '@/lib/seed';
 
 export function generateStaticParams() {
   return locations.map((l) => ({ slug: l.slug }));
@@ -28,7 +28,7 @@ export default async function LocationPage({ params }: { params: Promise<{ slug:
         <div style={{ position: 'absolute', inset: 0, background: 'var(--scrim-hero)' }} />
         <div style={{ ...wrap, position: 'relative', padding: '0 32px 56px' }}>
           <Link href="/locations" style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)', fontSize: 14, display: 'inline-block', marginBottom: 18 }}>← Все точки</Link>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 60, letterSpacing: '-0.02em', margin: 0 }}>{loc.name.replace('ChaiShopper ', '')}</h1>
+          <h1 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 60, letterSpacing: '-0.02em', margin: 0 }}>{shortName(loc.name)}</h1>
         </div>
       </section>
 
@@ -46,11 +46,11 @@ export default async function LocationPage({ params }: { params: Promise<{ slug:
 
       {/* local menu */}
       <section style={{ ...wrap, padding: '64px 32px 0' }}>
-        <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent)' }}>Локальное меню</div>
+        <Eyebrow>Локальное меню</Eyebrow>
         <h2 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 36, letterSpacing: '-0.02em', margin: '14px 0 32px' }}>Только в этой точке</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
           {local.map((m) => (
-            <MenuItemCard key={m.id} name={m.name} description={m.description} price={m.price} image={m.image} tags={m.tags} />
+            <MenuItemCard key={m.id} {...m} />
           ))}
         </div>
       </section>

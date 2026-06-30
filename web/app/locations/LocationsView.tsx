@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { Button, Card } from '@/components/ds';
-import type { Location } from '@/lib/seed';
+import { Eyebrow } from '@/components/site/Section';
+import { shortName, type Location } from '@/lib/seed';
 
 function Marker({ active }: { active: boolean }) {
   return (
@@ -22,14 +23,14 @@ export function LocationsView({ locations }: { locations: Location[] }) {
     <div style={{ display: 'flex', minHeight: 'calc(100vh - var(--navbar-h))', flexWrap: 'wrap' }}>
       {/* List */}
       <div style={{ width: 420, flexGrow: 1, flexShrink: 0, minWidth: 320, borderRight: '1px solid var(--border-subtle)', padding: '40px 32px', overflowY: 'auto' }}>
-        <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent)' }}>Наши точки</div>
+        <Eyebrow>Наши точки</Eyebrow>
         <h1 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 40, letterSpacing: '-0.02em', margin: '14px 0 28px' }}>Где найти тишину</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {locations.map((l) => {
             const on = l.id === sel.id;
             return (
               <div key={l.id} onClick={() => setSel(l)} style={{ padding: 18, borderRadius: 'var(--radius-md)', cursor: 'pointer', background: on ? 'var(--surface-card-hover)' : 'var(--surface-card)', border: `1px solid ${on ? 'var(--border-gold)' : 'var(--border-subtle)'}`, transition: 'all var(--dur) var(--ease-out)' }}>
-                <div style={{ fontFamily: 'var(--font-serif)', fontSize: 20, color: 'var(--text-primary)' }}>{l.name.replace('ChaiShopper ', '')}</div>
+                <div style={{ fontFamily: 'var(--font-serif)', fontSize: 20, color: 'var(--text-primary)' }}>{shortName(l.name)}</div>
                 <div style={{ fontSize: 14, color: 'var(--text-muted)', marginTop: 8 }}>{l.address}</div>
                 <div style={{ fontSize: 13, color: 'var(--text-faint)', marginTop: 4 }}>{l.hours}</div>
                 {on && (
@@ -54,7 +55,7 @@ export function LocationsView({ locations }: { locations: Location[] }) {
         ))}
         <div style={{ position: 'absolute', left: `${sel.x}%`, top: `${sel.y}%`, transform: 'translate(-50%, 14px)', width: 260 }}>
           <Card hover={false} style={{ background: 'var(--surface-card-hover)' }}>
-            <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18 }}>{sel.name.replace('ChaiShopper ', '')}</div>
+            <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18 }}>{shortName(sel.name)}</div>
             <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 6 }}>{sel.address}</div>
             <div style={{ fontSize: 13, color: 'var(--text-faint)', marginTop: 3 }}>{sel.phone}</div>
             <div style={{ marginTop: 12 }}><Button href={`/locations/${sel.slug}`} size="sm" variant="secondary">Подробнее</Button></div>

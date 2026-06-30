@@ -4,12 +4,9 @@ import React from 'react';
 
 export const wrap: React.CSSProperties = { maxWidth: 1240, margin: '0 auto', padding: '0 32px' };
 
+// .cs-eyebrow живёт в app/ds-tokens/base.css — единый источник стиля eyebrow.
 export function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--accent)' }}>
-      {children}
-    </div>
-  );
+  return <div className="cs-eyebrow">{children}</div>;
 }
 
 export function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; sub?: string }) {
