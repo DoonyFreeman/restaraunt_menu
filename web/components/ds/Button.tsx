@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
 /** Primary action button for ChaiShopper. */
 export interface ButtonProps
@@ -12,9 +13,9 @@ export interface ButtonProps
   fullWidth?: boolean;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
-  /** Render as a different element, e.g. 'a' or next/link. @default 'button' */
+  /** Render as a different element, e.g. 'a'. When `href` is set, renders next/link automatically. @default 'button' */
   as?: React.ElementType;
-  /** Destination when rendered as a link (`as={Link}` / `as="a"`). */
+  /** Destination — renders the button as a next/link. */
   href?: string;
   children?: React.ReactNode;
 }
@@ -33,7 +34,8 @@ export function Button({
   disabled = false,
   iconLeft = null,
   iconRight = null,
-  as = 'button',
+  as,
+  href,
   style = {},
   ...rest
 }: ButtonProps) {
@@ -80,10 +82,13 @@ export function Button({
     ghost: (e) => { e.currentTarget.style.color = 'var(--text-secondary)'; },
   };
 
-  const Tag = as;
+  // href → next/link; иначе as, иначе button. Функция Link не пересекает RSC-границу: её выбирает сам Button (client).
+  const Tag: React.ElementType = href ? Link : as || 'button';
+  const isButton = Tag === 'button';
   return (
     <Tag
-      disabled={as === 'button' ? disabled : undefined}
+      href={href}
+      disabled={isButton ? disabled : undefined}
       style={{ ...base, ...variants[variant], ...style }}
       onMouseEnter={hover[variant]}
       onMouseLeave={leave[variant]}

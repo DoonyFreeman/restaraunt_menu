@@ -102,7 +102,7 @@ export function Navbar({
             </Link>
           );
         })}
-        <Button as={Link} href={ctaHref} variant="primary" size="sm">{ctaLabel}</Button>
+        <Button href={ctaHref} variant="primary" size="sm">{ctaLabel}</Button>
       </nav>
     </header>
   );

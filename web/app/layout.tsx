@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Noto_Serif, Inter } from "next/font/google";
 import "./globals.css";
+import { Navbar, Footer } from "@/components/ds";
+import { locations } from "@/lib/seed";
 
 const notoSerif = Noto_Serif({
   variable: "--font-noto-serif",
@@ -29,8 +31,11 @@ export default function RootLayout({
       lang="ru"
       className={`${notoSerif.variable} ${inter.variable} h-full antialiased`}
     >
-      {/* Navbar/Footer добавляются в Sprint 2 */}
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Navbar />
+        <div style={{ flex: 1 }}>{children}</div>
+        <Footer locations={locations} />
+      </body>
     </html>
   );
 }

@@ -12,6 +12,8 @@ export interface CeremonyCardProps {
   price: number;
   /** CSS background value for the atmospheric photo. */
   image?: string;
+  /** Book CTA destination — renders the button as a link. */
+  bookHref?: string;
   onBook?: () => void;
   style?: React.CSSProperties;
 }
@@ -20,7 +22,7 @@ export interface CeremonyCardProps {
  * Ceremony card: atmospheric photo, name, duration + price meta, CTA.
  * Used on /ceremonies grid and the home "Наши церемонии" section.
  */
-export function CeremonyCard({ name, description, durationMin, price, image, onBook, style = {} }: CeremonyCardProps) {
+export function CeremonyCard({ name, description, durationMin, price, image, bookHref, onBook, style = {} }: CeremonyCardProps) {
   return (
     <Card padded={false} style={style}>
       <div
@@ -45,7 +47,9 @@ export function CeremonyCard({ name, description, durationMin, price, image, onB
           <p style={{ marginTop: 10, fontFamily: 'var(--font-sans)', fontSize: 14, lineHeight: 1.6, color: 'var(--text-muted)' }}>{description}</p>
         )}
         <div style={{ marginTop: 20 }}>
-          <Button variant="secondary" size="sm" onClick={onBook}>Забронировать</Button>
+          {bookHref
+            ? <Button href={bookHref} variant="secondary" size="sm">Забронировать</Button>
+            : <Button variant="secondary" size="sm" onClick={onBook}>Забронировать</Button>}
         </div>
       </div>
     </Card>
