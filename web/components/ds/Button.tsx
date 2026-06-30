@@ -12,8 +12,10 @@ export interface ButtonProps
   fullWidth?: boolean;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
-  /** Render as a different element, e.g. 'a'. @default 'button' */
+  /** Render as a different element, e.g. 'a' or next/link. @default 'button' */
   as?: React.ElementType;
+  /** Destination when rendered as a link (`as={Link}` / `as="a"`). */
+  href?: string;
   children?: React.ReactNode;
 }
 
