@@ -1,0 +1,26 @@
+/* ChaiShopper — Elevation, shadow, motion tokens
+   Soft warm shadows over a dark page. Subtle motion: fades, gentle lift, slow parallax. */
+
+:root {
+  /* shadows — warm-black, low spread, never harsh */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 18px 44px rgba(0, 0, 0, 0.55);
+  --shadow-overlay: 0 24px 70px rgba(0, 0, 0, 0.6);
+  --shadow-gold-glow: 0 0 0 1px rgba(200, 169, 110, 0.25), 0 10px 30px rgba(200, 169, 110, 0.08);
+
+  /* inner well for inputs */
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+
+  /* motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --dur-fast: 140ms; /* @kind other */
+  --dur: 240ms; /* @kind other */
+  --dur-slow: 420ms; /* @kind other */
+  --lift: -4px; /* card hover translateY */
+
+  /* atmospheric gradients (steam / vignette over photos) */
+  --scrim-bottom: linear-gradient(to top, rgba(15, 14, 12, 0.92) 0%, rgba(15, 14, 12, 0.5) 38%, rgba(15, 14, 12, 0) 70%); /* @kind other */
+  --scrim-hero: linear-gradient(to top, rgba(15, 14, 12, 0.95) 4%, rgba(15, 14, 12, 0.35) 45%, rgba(15, 14, 12, 0.55) 100%); /* @kind other */
+}

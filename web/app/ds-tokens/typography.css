@@ -1,0 +1,41 @@
+/* ChaiShopper — Typography tokens
+   Headings: Noto Serif (light, tight tracking). Body: Inter.
+   Large Noto Serif italic for quotes & atmospheric subheads. */
+
+:root {
+  /* шрифты грузятся через next/font (см. app/layout.tsx); переменные --font-noto-serif/--font-inter */
+  --font-serif: var(--font-noto-serif), 'Times New Roman', serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* weights */
+  --weight-serif-light: 300;
+  --weight-serif: 400;
+  --weight-body: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* tracking */
+  --tracking-display: -0.02em;   /* serif headings */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-eyebrow: 0.22em;    /* uppercase labels / eyebrows */
+
+  /* line-height */
+  --leading-display: 1.08;
+  --leading-heading: 1.18;
+  --leading-body: 1.6;
+  --leading-snug: 1.4;
+
+  /* type scale (px) — display in serif, UI/body in sans */
+  --text-display-xl: 76px;  /* hero */
+  --text-display-l: 56px;
+  --text-display-m: 40px;   /* section titles */
+  --text-quote: 30px;       /* serif italic pull-quotes */
+  --text-title: 24px;       /* card titles */
+  --text-lg: 20px;
+  --text-body: 17px;
+  --text-sm: 15px;
+  --text-xs: 13px;
+  --text-eyebrow: 12px;
+}
