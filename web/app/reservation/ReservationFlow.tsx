@@ -3,7 +3,7 @@
 import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button, Input } from '@/components/ds';
-import { shortName, type Location } from '@/lib/seed';
+import { shortName, type Location } from '@/lib/types';
 
 const LABELS = ['Точка', 'Дата', 'Гости', 'Контакты', 'Готово'];
 const TIMES = ['12:00', '14:00', '16:00', '18:00', '19:00', '20:00', '21:00'];

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Noto_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar, Footer } from "@/components/ds";
-import { locations } from "@/lib/seed";
+import { fetchLocations } from "@/lib/graphql/queries";
+import type { Location } from "@/lib/types";
 
 const notoSerif = Noto_Serif({
   variable: "--font-noto-serif",
@@ -21,11 +22,18 @@ export const metadata: Metadata = {
     "Сеть азиатских чайных ресторанов ChaiShopper: меню, чайные церемонии, бронирование столов.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let locations: Location[] = [];
+  try {
+    locations = await fetchLocations();
+  } catch {
+    // GraphQL недоступен — Footer получит пустой массив
+  }
+
   return (
     <html
       lang="ru"

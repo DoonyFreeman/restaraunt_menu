@@ -2,18 +2,40 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Button, Card, MenuItemCard } from '@/components/ds';
 import { wrap, Eyebrow } from '@/components/site/Section';
-import { locations, locationBySlug, menu, photos, shortName } from '@/lib/seed';
+import { fetchLocations, fetchLocationBySlug, fetchMenuItems } from '@/lib/graphql/queries';
+import { shortName } from '@/lib/types';
 
-export function generateStaticParams() {
+const TEAPOT = '/design/photo-teapot-dark.jpg';
+
+export async function generateStaticParams() {
+  let locations: Awaited<ReturnType<typeof fetchLocations>> = [];
+  try {
+    locations = await fetchLocations();
+  } catch {
+    // GraphQL недоступен — no static params
+  }
   return locations.map((l) => ({ slug: l.slug }));
 }
 
 export default async function LocationPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const loc = locationBySlug(slug);
+
+  let loc = null;
+  try {
+    loc = await fetchLocationBySlug(slug);
+  } catch {
+    // GraphQL недоступен
+  }
   if (!loc) notFound();
 
-  const local = menu.slice(0, 3); // локальное меню (Sprint 3: реальное по точке)
+  let allMenu = [];
+  try {
+    allMenu = await fetchMenuItems();
+  } catch {
+    // GraphQL недоступен
+  }
+
+  const local = allMenu.filter((m) => loc!.localItems.includes(m.id));
   const info: Array<[string, string]> = [['Адрес', loc.address], ['Часы', loc.hours], ['Телефон', loc.phone]];
 
   return (
@@ -21,7 +43,7 @@ export default async function LocationPage({ params }: { params: Promise<{ slug:
       <section
         style={{
           position: 'relative', minHeight: 420, display: 'flex', alignItems: 'flex-end',
-          backgroundImage: `url(${photos.teapot})`, backgroundSize: 'cover', backgroundPosition: 'center',
+          backgroundImage: `url(${TEAPOT})`, backgroundSize: 'cover', backgroundPosition: 'center',
         }}
       >
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(70% 80% at 70% 20%, rgba(200,169,110,0.10), transparent 60%)' }} />

@@ -1,13 +1,24 @@
 import { Suspense } from 'react';
 import { ReservationFlow } from './ReservationFlow';
-import { locations } from '@/lib/seed';
+import { fetchLocations } from '@/lib/graphql/queries';
+import type { Location } from '@/lib/types';
 
 export const metadata = {
   title: 'Бронирование — ChaiShopper',
-  description: 'Забронируйте стол в ChaiShopper: выберите точку, дату, время и количество гостей.',
+  description: 'Забронировать стол в ChaiShopper: выбор точки, даты и времени.',
 };
 
-export default function ReservationPage() {
+export default async function ReservationPage() {
+  let locations: Location[] = [];
+  try {
+    locations = await fetchLocations();
+  } catch {
+    // GraphQL недоступен
+  }
+
+  return <ReservationFlow locations={locations} />;
+}
+
   return (
     <Suspense>
       <ReservationFlow locations={locations} />

@@ -1,8 +1,18 @@
 import { Button, CeremonyCard, MenuItemCard } from '@/components/ds';
 import { wrap, Eyebrow, SectionHead } from '@/components/site/Section';
-import { ceremonies, menu, photos } from '@/lib/seed';
+import { fetchCeremonies, fetchMenuItems } from '@/lib/graphql/queries';
 
-export default function Home() {
+const TEAPOT = '/design/photo-teapot-dark.jpg';
+
+export default async function Home() {
+  let ceremonies: Awaited<ReturnType<typeof fetchCeremonies>> = [];
+  let menu: Awaited<ReturnType<typeof fetchMenuItems>> = [];
+  try {
+    [ceremonies, menu] = await Promise.all([fetchCeremonies(), fetchMenuItems()]);
+  } catch {
+    // GraphQL недоступен — покажем пустые секции
+  }
+
   const featuredCeremonies = ceremonies.slice(0, 3);
   const popular = menu
     .filter((m) => m.tags.includes('top'))
@@ -19,7 +29,7 @@ export default function Home() {
           display: 'flex',
           alignItems: 'center',
           backgroundImage:
-            `linear-gradient(100deg, rgba(15,14,12,0.97) 0%, rgba(15,14,12,0.84) 40%, rgba(15,14,12,0.45) 72%, rgba(15,14,12,0.7) 100%), url(${photos.teapot})`,
+            `linear-gradient(100deg, rgba(15,14,12,0.97) 0%, rgba(15,14,12,0.84) 40%, rgba(15,14,12,0.45) 72%, rgba(15,14,12,0.7) 100%), url(${TEAPOT})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center right',
         }}

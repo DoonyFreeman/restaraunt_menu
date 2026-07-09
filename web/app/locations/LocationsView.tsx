@@ -3,7 +3,7 @@
 import React from 'react';
 import { Button, Card } from '@/components/ds';
 import { Eyebrow } from '@/components/site/Section';
-import { shortName, type Location } from '@/lib/seed';
+import { shortName, type Location } from '@/lib/types';
 
 function Marker({ active }: { active: boolean }) {
   return (
@@ -18,7 +18,18 @@ function Marker({ active }: { active: boolean }) {
 }
 
 export function LocationsView({ locations }: { locations: Location[] }) {
-  const [sel, setSel] = React.useState<Location>(locations[0]);
+  const [sel, setSel] = React.useState<Location | null>(locations[0] ?? null);
+  if (!sel) {
+    return (
+      <div style={{ display: 'flex', minHeight: 'calc(100vh - var(--navbar-h))', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+          <Eyebrow>Наши точки</Eyebrow>
+          <h1 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 40, letterSpacing: '-0.02em', margin: '14px 0 28px' }}>Где найти тишину</h1>
+          <p>Нет данных о точках. Подключите WordPress.</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div style={{ display: 'flex', minHeight: 'calc(100vh - var(--navbar-h))', flexWrap: 'wrap' }}>
       {/* List */}
@@ -27,7 +38,7 @@ export function LocationsView({ locations }: { locations: Location[] }) {
         <h1 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontSize: 40, letterSpacing: '-0.02em', margin: '14px 0 28px' }}>Где найти тишину</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {locations.map((l) => {
-            const on = l.id === sel.id;
+            const on = l.id === sel?.id;
             return (
               <div key={l.id} onClick={() => setSel(l)} style={{ padding: 18, borderRadius: 'var(--radius-md)', cursor: 'pointer', background: on ? 'var(--surface-card-hover)' : 'var(--surface-card)', border: `1px solid ${on ? 'var(--border-gold)' : 'var(--border-subtle)'}`, transition: 'all var(--dur) var(--ease-out)' }}>
                 <div style={{ fontFamily: 'var(--font-serif)', fontSize: 20, color: 'var(--text-primary)' }}>{shortName(l.name)}</div>
@@ -49,11 +60,11 @@ export function LocationsView({ locations }: { locations: Location[] }) {
       <div style={{ flex: 1, minWidth: 320, position: 'relative', background: 'radial-gradient(110% 90% at 50% 30%, #1a1712, #0c0b09)', overflow: 'hidden', minHeight: 480 }}>
         <div style={{ position: 'absolute', inset: 0, opacity: 0.5, backgroundImage: 'linear-gradient(rgba(200,169,110,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(200,169,110,0.05) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
         {locations.map((l) => (
-          <div key={l.id} onClick={() => setSel(l)} style={{ position: 'absolute', left: `${l.x}%`, top: `${l.y}%`, transform: 'translate(-50%,-100%)', cursor: 'pointer' }}>
-            <Marker active={l.id === sel.id} />
+          <div key={l.id} onClick={() => setSel(l)} style={{ position: 'absolute', left: `${l.x ?? 50}%`, top: `${l.y ?? 50}%`, transform: 'translate(-50%,-100%)', cursor: 'pointer' }}>
+            <Marker active={l.id === sel?.id} />
           </div>
         ))}
-        <div style={{ position: 'absolute', left: `${sel.x}%`, top: `${sel.y}%`, transform: 'translate(-50%, 14px)', width: 260 }}>
+        <div style={{ position: 'absolute', left: `${sel.x ?? 50}%`, top: `${sel.y ?? 50}%`, transform: 'translate(-50%, 14px)', width: 260 }}>
           <Card hover={false} style={{ background: 'var(--surface-card-hover)' }}>
             <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18 }}>{shortName(sel.name)}</div>
             <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 6 }}>{sel.address}</div>

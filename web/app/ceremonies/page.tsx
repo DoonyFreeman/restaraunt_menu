@@ -1,19 +1,29 @@
 import { CeremonyCard } from '@/components/ds';
 import { wrap, Eyebrow } from '@/components/site/Section';
-import { ceremonies, photos } from '@/lib/seed';
+import { fetchCeremonies } from '@/lib/graphql/queries';
+import type { Ceremony } from '@/lib/types';
+
+const TEAPOT = '/design/photo-teapot-dark.jpg';
 
 export const metadata = {
   title: 'Чайные церемонии — ChaiShopper',
   description: 'Гунфу Ча, маття, пуэр и другие ритуалы ChaiShopper — длительность, цены, бронирование.',
 };
 
-export default function CeremoniesPage() {
+export default async function CeremoniesPage() {
+  let ceremonies: Ceremony[] = [];
+  try {
+    ceremonies = await fetchCeremonies();
+  } catch {
+    // GraphQL недоступен
+  }
+
   return (
     <div>
       <section
         style={{
           position: 'relative', minHeight: 460, display: 'flex', alignItems: 'flex-end',
-          backgroundImage: `url(${photos.teapot})`, backgroundSize: 'cover', backgroundPosition: 'center',
+          backgroundImage: `url(${TEAPOT})`, backgroundSize: 'cover', backgroundPosition: 'center',
         }}
       >
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(80% 70% at 75% 25%, rgba(200,169,110,0.10), transparent 60%)' }} />

@@ -3,7 +3,7 @@
 import React from 'react';
 import { MenuItemCard } from '@/components/ds';
 import { wrap, Eyebrow } from '@/components/site/Section';
-import { shortName, type Category, type Location, type MenuItem } from '@/lib/seed';
+import { shortName, type Category, type Location, type MenuItem } from '@/lib/types';
 
 interface Props {
   menu: MenuItem[];
@@ -13,7 +13,7 @@ interface Props {
 
 export function MenuView({ menu, categories, locations }: Props) {
   const [cat, setCat] = React.useState('all');
-  const [loc, setLoc] = React.useState<Location>(locations[0]);
+  const [loc, setLoc] = React.useState<Location | null>(locations[0] ?? null);
   const [open, setOpen] = React.useState(false);
   const items = cat === 'all' ? menu : menu.filter((m) => m.cat === cat);
 
@@ -26,13 +26,13 @@ export function MenuView({ menu, categories, locations }: Props) {
           {/* Location switcher */}
           <div style={{ position: 'relative' }}>
             <button onClick={() => setOpen((o) => !o)} style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--surface-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius)', padding: '11px 16px', color: 'var(--text-primary)', fontFamily: 'var(--font-sans)', fontSize: 14, cursor: 'pointer' }}>
-              <span style={{ color: 'var(--text-faint)' }}>Ресторан:</span> {shortName(loc.name)}
+              <span style={{ color: 'var(--text-faint)' }}>Ресторан:</span> {loc ? shortName(loc.name) : '—'}
               <span style={{ color: 'var(--accent)' }}>▾</span>
             </button>
             {open && (
               <div style={{ position: 'absolute', top: 'calc(100% + 6px)', right: 0, minWidth: 260, background: 'var(--surface-card-hover)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-overlay)', overflow: 'hidden', zIndex: 20 }}>
                 {locations.map((l) => (
-                  <div key={l.id} onClick={() => { setLoc(l); setOpen(false); }} style={{ padding: '13px 16px', cursor: 'pointer', borderBottom: '1px solid var(--border-subtle)', color: l.id === loc.id ? 'var(--accent)' : 'var(--text-secondary)', fontSize: 14 }}>
+                  <div key={l.id} onClick={() => { setLoc(l); setOpen(false); }} style={{ padding: '13px 16px', cursor: 'pointer', borderBottom: '1px solid var(--border-subtle)', color: l.id === loc?.id ? 'var(--accent)' : 'var(--text-secondary)', fontSize: 14 }}>
                     <div style={{ fontWeight: 500 }}>{shortName(l.name)}</div>
                     <div style={{ fontSize: 12, color: 'var(--text-faint)', marginTop: 3 }}>{l.address}</div>
                   </div>
