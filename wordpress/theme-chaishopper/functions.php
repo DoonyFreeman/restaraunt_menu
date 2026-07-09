@@ -1,6 +1,10 @@
 <?php
 // ChaiShopper headless theme — bootstrap.
-// CPT/ACF/GraphQL-резолверы добавляются в Sprint 1+ (cpt.php, graphql.php и т.д.).
+
+// CPT, таксономии, ACF-поля.
+require_once __DIR__ . '/cpt.php';
+require_once __DIR__ . '/taxonomy.php';
+require_once __DIR__ . '/acf.php';
 
 // Headless: убираем фронтовый мусор.
 add_filter( 'show_admin_bar', '__return_false' );
