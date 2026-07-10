@@ -13,12 +13,10 @@ export default async function ReservationPage() {
   try {
     locations = await fetchLocations();
   } catch {
-    // GraphQL недоступен
+    // GraphQL недоступен — форма покажет пустой список точек
   }
 
-  return <ReservationFlow locations={locations} />;
-}
-
+  // Suspense обязателен: ReservationFlow использует useSearchParams()
   return (
     <Suspense>
       <ReservationFlow locations={locations} />

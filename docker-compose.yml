@@ -28,11 +28,11 @@ services:
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      # WP_DEBUG задаётся через WORDPRESS_DEBUG (иначе дубль define → PHP warning в каждом wp-cli)
+      WORDPRESS_DEBUG: 1
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_HOME', getenv('WP_URL'));
         define('WP_SITEURL', getenv('WP_URL'));
-        define('WP_DEBUG', true);
-        define('WP_DEBUG_LOG', true);
       WP_URL: ${WP_URL}
       WP_ADMIN_USER: admin
       WP_ADMIN_PASS: admin

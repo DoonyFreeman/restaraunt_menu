@@ -2,6 +2,10 @@ import { Button, CeremonyCard, MenuItemCard } from '@/components/ds';
 import { wrap, Eyebrow, SectionHead } from '@/components/site/Section';
 import { fetchCeremonies, fetchMenuItems } from '@/lib/graphql/queries';
 
+// ISR: страница запекается пустой при docker-build (WP недоступен),
+// сегмент-конфиг заставляет Next перегенерировать её в рантайме.
+export const revalidate = 60;
+
 const TEAPOT = '/design/photo-teapot-dark.jpg';
 
 export default async function Home() {

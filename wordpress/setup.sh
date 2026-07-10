@@ -15,8 +15,9 @@ PLUGINS_DIR="/var/www/html/wp-content/plugins"
 THEME_DIR="/var/www/html/wp-content/themes/chaishopper"
 
 # ─── Ждём MySQL ──────────────────────────────────────────────────
+# Через PHP mysqli: mysql-клиента в образе нет, wp db check не работает.
 echo "[setup] Waiting for MySQL..."
-until wp db check --quiet 2>/dev/null; do
+until php -r 'exit(@mysqli_connect(getenv("WORDPRESS_DB_HOST"), getenv("WORDPRESS_DB_USER"), getenv("WORDPRESS_DB_PASSWORD"), getenv("WORDPRESS_DB_NAME")) ? 0 : 1);'; do
     sleep 2
 done
 echo "[setup] MySQL ready."
@@ -77,18 +78,14 @@ else
     wp plugin activate advanced-custom-fields-pro
 fi
 
-# ─── Разрешаем JSON-экспорт ACF ──────────────────────────────────
-mkdir -p "$THEME_DIR/acf-json"
-wp option update acf_settings_save_json "$THEME_DIR/acf-json" 2>/dev/null || true
-wp option update acf_settings_load_json "$THEME_DIR/acf-json" 2>/dev/null || true
-
-# ─── Настройки WPGraphQL ─────────────────────────────────────────
-# Включаем Introspection для разработки
-wp option update graphql_enable_http_rawurlencoded 1 2>/dev/null || true
-
-# ─── Капабилити: читать черновики (для фронта в dev) ─────────────
-wp role list | grep -q "graphql_reader" || \
-    wp role create graphql_reader "GraphQL Reader" 2>/dev/null || true
+# WPGraphQL for ACF — экспонирует ACF-поля (locationFields и т.д.) в схему
+if [ ! -d "$PLUGINS_DIR/wpgraphql-acf" ]; then
+    echo "[setup] Installing WPGraphQL for ACF..."
+    wp plugin install wpgraphql-acf --activate
+else
+    echo "[setup] WPGraphQL for ACF found. Activating..."
+    wp plugin activate wpgraphql-acf
+fi
 
 echo "[setup] WordPress installed successfully."
 echo "[setup] Admin: $WP_ADMIN_USER / $WP_ADMIN_PASS"
@@ -96,4 +93,5 @@ echo "[setup] WP: $WP_URL"
 echo "[setup] GraphQL: $WP_URL/graphql"
 
 # ─── Seed-данные ─────────────────────────────────────────────────
-bash /setup/seed.sh 2>/dev/null || echo "[setup] Seed skipped (no seed.sh found)."
+# Без подавления stderr: ошибки сида должны быть видны в логе контейнера.
+bash /setup/seed.sh || echo "[setup] Seed FAILED — см. лог выше."

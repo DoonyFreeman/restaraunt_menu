@@ -15,10 +15,6 @@ const globalMenu: MenuItem[] = [
   { id: 6, cat: 'sweet', name: 'Моти', price: 380, tags: ['veg', 'top'], description: '', image: '' },
 ];
 
-const localMenuItem: MenuItem = {
-  id: 100, cat: 'dim', name: 'Локальные вантоу', price: 620, tags: [], description: '', image: '',
-};
-
 const baseLocation: Location = {
   id: 'loc-1',
   name: 'Точка',
@@ -81,6 +77,29 @@ describe('mergeMenu', () => {
     const loc = { ...baseLocation, hiddenItems: [] };
     const result = mergeMenu(globalMenu, loc);
     expect(result).toHaveLength(globalMenu.length);
+  });
+
+  // ─── Эксклюзивы (allLocalIds) ──────────────────────────────────
+
+  it('чужой эксклюзив скрыт: точка без localItems не видит позицию 6', () => {
+    const patriki = { ...baseLocation };
+    const result = mergeMenu(globalMenu, patriki, [6]);
+    expect(result.find((m) => m.id === 6)).toBeUndefined();
+    expect(result).toHaveLength(5);
+  });
+
+  it('владелец видит свой эксклюзив', () => {
+    const pokrovka = { ...baseLocation, localItems: [6] };
+    const result = mergeMenu(globalMenu, pokrovka, [6]);
+    expect(result.find((m) => m.id === 6)).toBeDefined();
+    expect(result).toHaveLength(6);
+  });
+
+  it('эксклюзив + скрытие работают вместе', () => {
+    // Патрики: скрыли 4, чужой эксклюзив 6 → видят 4 позиции
+    const patriki = { ...baseLocation, hiddenItems: [4] };
+    const result = mergeMenu(globalMenu, patriki, [6]);
+    expect(result.map((m) => m.id).sort()).toEqual([1, 2, 3, 5]);
   });
 });
 

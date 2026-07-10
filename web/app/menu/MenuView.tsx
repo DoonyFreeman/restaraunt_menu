@@ -4,6 +4,7 @@ import React from 'react';
 import { MenuItemCard } from '@/components/ds';
 import { wrap, Eyebrow } from '@/components/site/Section';
 import { shortName, type Category, type Location, type MenuItem } from '@/lib/types';
+import { mergeMenu } from '@/lib/menu-merge';
 
 interface Props {
   menu: MenuItem[];
@@ -15,7 +16,10 @@ export function MenuView({ menu, categories, locations }: Props) {
   const [cat, setCat] = React.useState('all');
   const [loc, setLoc] = React.useState<Location | null>(locations[0] ?? null);
   const [open, setOpen] = React.useState(false);
-  const items = cat === 'all' ? menu : menu.filter((m) => m.cat === cat);
+  // Меню точки: минус скрытые и чужие эксклюзивы; затем фильтр по категории.
+  const allLocalIds = locations.flatMap((l) => l.localItems);
+  const locMenu = loc ? mergeMenu(menu, loc, allLocalIds) : menu;
+  const items = cat === 'all' ? locMenu : locMenu.filter((m) => m.cat === cat);
 
   return (
     <div>

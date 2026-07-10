@@ -21,7 +21,9 @@ function cs_register_cpts() {
             'add_new_item'  => 'Добавить точку',
             'edit_item'     => 'Редактировать точку',
         ),
-        'public'       => false,
+        'public'       => true,  // false прячет CPT от анонимного GraphQL
+        'exclude_from_search' => true,
+        'rewrite'      => false,
         'show_ui'      => true,
         'show_in_rest' => true,
         'show_in_graphql' => true,
@@ -40,13 +42,15 @@ function cs_register_cpts() {
             'add_new_item'  => 'Добавить позицию',
             'edit_item'     => 'Редактировать позицию',
         ),
-        'public'       => false,
+        'public'       => true,  // false прячет CPT от анонимного GraphQL
+        'exclude_from_search' => true,
+        'rewrite'      => false,
         'show_ui'      => true,
         'show_in_rest' => true,
         'show_in_graphql' => true,
-        'graphql_single_name' => 'menuItem',
-        'graphql_plural_name' => 'menuItems',
-        'supports'     => array( 'title', 'editor', 'thumbnail' ),
+        'graphql_single_name' => 'dish', // 'menuItem' коллизия со встроенным nav-menu типом WPGraphQL
+        'graphql_plural_name' => 'dishes',
+        'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
         'menu_icon'    => 'dashicons-food',
         'has_archive'  => false,
     ) );
@@ -59,13 +63,15 @@ function cs_register_cpts() {
             'add_new_item'  => 'Добавить церемонию',
             'edit_item'     => 'Редактировать церемонию',
         ),
-        'public'       => false,
+        'public'       => true,  // false прячет CPT от анонимного GraphQL
+        'exclude_from_search' => true,
+        'rewrite'      => false,
         'show_ui'      => true,
         'show_in_rest' => true,
         'show_in_graphql' => true,
         'graphql_single_name' => 'ceremony',
         'graphql_plural_name' => 'ceremonies',
-        'supports'     => array( 'title', 'editor', 'thumbnail' ),
+        'supports'     => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
         'menu_icon'    => 'dashicons-smartphone',
         'has_archive'  => false,
     ) );

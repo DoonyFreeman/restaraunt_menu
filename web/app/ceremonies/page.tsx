@@ -3,6 +3,10 @@ import { wrap, Eyebrow } from '@/components/site/Section';
 import { fetchCeremonies } from '@/lib/graphql/queries';
 import type { Ceremony } from '@/lib/types';
 
+// ISR: страница запекается пустой при docker-build (WP недоступен),
+// сегмент-конфиг заставляет Next перегенерировать её в рантайме.
+export const revalidate = 60;
+
 const TEAPOT = '/design/photo-teapot-dark.jpg';
 
 export const metadata = {

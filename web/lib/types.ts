@@ -1,5 +1,5 @@
-// ChaiShopper — доменные типы.
-// Форма совпадает с seed.ts — при переходе на WPGraphQL маппинг идёт 1:1.
+// ChaiShopper — доменные типы (форма задана дизайн-китом ui_kits/website/data.js).
+// WP-ответы приводятся к этим типам мапперами в lib/graphql/queries.ts.
 
 export type MenuTag = 'veg' | 'spicy' | 'top';
 
@@ -67,14 +67,14 @@ export interface Reservation {
 // Сырые типы из GraphQL — маппинг → domain types в mappers.ts.
 
 export interface WpMenuItem {
-  id: string;
+  databaseId: number;
   title: string;
   slug: string;
-  content: string | null;
+  excerpt: string | null;
   featuredImage: { node: { sourceUrl: string } } | null;
-  menuItemFields: {
-    price: number;
-    tags: string[];
+  dishFields: {
+    price: number | null;
+    tags: string[] | null;
   } | null;
   menuCategories: {
     nodes: Array<{ slug: string; name: string }>;
@@ -82,39 +82,33 @@ export interface WpMenuItem {
 }
 
 export interface WpLocation {
-  id: string;
+  databaseId: number;
   title: string;
   slug: string;
-  content: string | null;
   locationFields: {
-    address: string;
-    hours: string;
-    phone: string;
-    latitude: number;
-    longitude: number;
-    hiddenItems: { nodes: Array<{ id: string }> } | null;
-    localItems: {
-      nodes: Array<{
-        menuItem: { nodes: Array<{ id: string }> };
-      }>;
-    } | null;
+    address: string | null;
+    hours: string | null;
+    phone: string | null;
+    latitude: number | null;
+    longitude: number | null;
+    hiddenItems: { nodes: Array<{ databaseId: number }> } | null;
+    localItems: { nodes: Array<{ databaseId: number }> } | null;
   } | null;
 }
 
 export interface WpCeremony {
-  id: string;
+  databaseId: number;
   title: string;
   slug: string;
-  content: string | null;
+  excerpt: string | null;
   featuredImage: { node: { sourceUrl: string } } | null;
   ceremonyFields: {
-    durationMin: number;
-    price: number;
+    durationMin: number | null;
+    price: number | null;
   } | null;
 }
 
 export interface WpMenuCategory {
-  id: string;
   name: string;
   slug: string;
 }

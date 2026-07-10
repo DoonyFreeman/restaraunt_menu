@@ -3,7 +3,7 @@
  * ChaiShopper — ACF Field Groups.
  *
  * Поля для location, menu_item, ceremony, reservation.
- * Требует ACF Pro (Pro fields: Google Map, Repeater).
+ * Работает с бесплатным ACF (все поля — free-типы).
  *
  * Если ACF не установлен — файл молча пропускается.
  */
@@ -19,6 +19,8 @@ if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 // ─── Location ────────────────────────────────────────────────────
 acf_add_local_field_group( array(
     'key'      => 'group_location',
+    'show_in_graphql'    => 1,
+    'graphql_field_name' => 'locationFields',
     'title'    => 'Данные точки',
     'fields'   => array(
         array(
@@ -65,21 +67,9 @@ acf_add_local_field_group( array(
             'key'          => 'field_loc_local',
             'label'        => 'Локальные позиции меню',
             'name'         => 'local_items',
-            'type'         => 'repeater',
-            'instructions' => 'Позиции, добавленные только для этой точки.',
-            'min'          => 0,
-            'max'          => 30,
-            'layout'       => 'table',
-            'sub_fields'   => array(
-                array(
-                    'key'       => 'field_loc_local_item',
-                    'label'     => 'Позиция меню',
-                    'name'      => 'menu_item',
-                    'type'      => 'relationship',
-                    'post_type' => array( 'menu_item' ),
-                    'max'       => 1,
-                ),
-            ),
+            'type'         => 'relationship',
+            'post_type'    => array( 'menu_item' ),
+            'instructions' => 'Эксклюзивы этой точки: видны только здесь, из общего меню скрываются.',
         ),
     ),
     'location' => array(
@@ -98,6 +88,8 @@ acf_add_local_field_group( array(
 // ─── Menu Item ───────────────────────────────────────────────────
 acf_add_local_field_group( array(
     'key'      => 'group_menu_item',
+    'show_in_graphql'    => 1,
+    'graphql_field_name' => 'dishFields',
     'title'    => 'Данные позиции меню',
     'fields'   => array(
         array(
@@ -137,6 +129,8 @@ acf_add_local_field_group( array(
 // ─── Ceremony ────────────────────────────────────────────────────
 acf_add_local_field_group( array(
     'key'      => 'group_ceremony',
+    'show_in_graphql'    => 1,
+    'graphql_field_name' => 'ceremonyFields',
     'title'    => 'Данные церемонии',
     'fields'   => array(
         array(
@@ -170,6 +164,8 @@ acf_add_local_field_group( array(
 // ─── Reservation ─────────────────────────────────────────────────
 acf_add_local_field_group( array(
     'key'      => 'group_reservation',
+    'show_in_graphql'    => 1,
+    'graphql_field_name' => 'reservationFields',
     'title'    => 'Данные бронирования',
     'fields'   => array(
         array(

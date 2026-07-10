@@ -3,7 +3,11 @@ import { notFound } from 'next/navigation';
 import { Button, Card, MenuItemCard } from '@/components/ds';
 import { wrap, Eyebrow } from '@/components/site/Section';
 import { fetchLocations, fetchLocationBySlug, fetchMenuItems } from '@/lib/graphql/queries';
-import { shortName } from '@/lib/types';
+import { shortName, type MenuItem } from '@/lib/types';
+
+// ISR: страница запекается пустой при docker-build (WP недоступен),
+// сегмент-конфиг заставляет Next перегенерировать её в рантайме.
+export const revalidate = 60;
 
 const TEAPOT = '/design/photo-teapot-dark.jpg';
 
@@ -28,7 +32,7 @@ export default async function LocationPage({ params }: { params: Promise<{ slug:
   }
   if (!loc) notFound();
 
-  let allMenu = [];
+  let allMenu: MenuItem[] = [];
   try {
     allMenu = await fetchMenuItems();
   } catch {

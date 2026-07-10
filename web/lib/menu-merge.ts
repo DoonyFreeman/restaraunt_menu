@@ -1,30 +1,33 @@
-// ChaiShopper — логика слияния меню «базовое + локальное».
+// ChaiShopper — логика меню «базовое + локальное».
 //
-// Глобальные позиции меню − скрытые точкой + локальные позиции точки.
+// Все позиции (включая локальные эксклюзивы) живут в WP как menu_item.
+// Точка может: скрыть позицию (hiddenItems) и объявить позицию своим
+// эксклюзивом (localItems) — эксклюзив виден ТОЛЬКО в своей точке.
 // Логика чистая, без side-effects — удобно тестировать.
 
 import type { MenuItem, Location } from './types';
 
 /**
- * Сливает глобальное меню с локальными настройками точки.
+ * Меню конкретной точки.
  *
- * @param globalMenu - все позиции меню из WP (базовое меню)
- * @param location - точка с hiddenItems и localItems
- * @returns отфильтрованное + дополненное меню для точки
+ * @param globalMenu - все позиции меню из WP
+ * @param location - точка (hiddenItems, localItems)
+ * @param allLocalIds - id, объявленные эксклюзивами ЛЮБОЙ точкой
+ *   (обычно `locations.flatMap(l => l.localItems)`). Без него чужие
+ *   эксклюзивы не отличить от базовых позиций — они останутся видимыми.
  */
-export function mergeMenu(globalMenu: MenuItem[], location: Location): MenuItem[] {
+export function mergeMenu(
+  globalMenu: MenuItem[],
+  location: Location,
+  allLocalIds: Iterable<number> = location.localItems,
+): MenuItem[] {
   const hidden = new Set(location.hiddenItems);
+  const own = new Set(location.localItems);
+  const exclusive = new Set(allLocalIds);
 
-  // 1. Убираем скрытые позиции
-  const filtered = globalMenu.filter((item) => !hidden.has(item.id));
-
-  // 2. Добавляем локальные (дедупликация по id)
-  const existingIds = new Set(filtered.map((item) => item.id));
-  const locals = location.localItems
-    .map((id) => globalMenu.find((item) => item.id === id))
-    .filter((item): item is MenuItem => item != null && !existingIds.has(item.id));
-
-  return [...filtered, ...locals];
+  return globalMenu.filter(
+    (item) => !hidden.has(item.id) && (!exclusive.has(item.id) || own.has(item.id)),
+  );
 }
 
 /**
